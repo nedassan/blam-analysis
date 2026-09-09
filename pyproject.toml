@@ -1,0 +1,43 @@
+[project]
+name = "blam-analysis"
+version = "0.1.0"
+description = "Bayesian Latent Ability Model: rank models across tasks from raw predictions and ground truth."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scipy>=1.13",
+    "joblib>=1.4",
+    "jax>=0.4.31",
+    "jaxlib>=0.4.31",
+    "numpyro>=0.15",
+    "click>=8.1",
+]
+
+[project.optional-dependencies]
+viz = ["matplotlib>=3.9"]
+
+[project.scripts]
+blam-analysis = "blam_analysis.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/blam_analysis"]
+
+[tool.uv]
+# Rolling 3-day cooldown on newly published package versions -- blocks
+# same-day supply-chain attacks (a malicious version published and pulled
+# into a build before anyone notices).
+exclude-newer = "2026-09-06T00:00:00Z"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
